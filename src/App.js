@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import './App.css'
 import MovieList from './components/MovieList'
 import MovieListHeading from './components/MovieListHeading'
 import SearchBox from './components/SearchBox'
-import './App.css'
 import AddFavourites from './components/AddFavourites'
 import RemoveFavourites from './components/RemoveFavourites'
 
