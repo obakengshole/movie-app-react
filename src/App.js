@@ -5,6 +5,7 @@ import MovieListHeading from './components/MovieListHeading'
 import SearchBox from './components/SearchBox'
 import './App.css'
 import AddFavourites from './components/AddFavourites'
+import RemoveFavourites from './components/RemoveFavourites'
 
 // when the app loads, the useEffect gets called which always gets called on first render, calls getMovieRequest passing
 // in our searchCalue which is an empty string, this gets the movie request, takes the searchValue and sends it to our request
@@ -14,7 +15,7 @@ import AddFavourites from './components/AddFavourites'
 const App = () => {
   const [movies, setMovies] = useState([])
   const [searchValue, setSearchValue] = useState('')
-  const [favourites, setFavourites] = useState('')
+  const [favourites, setFavourites] = useState([])
   
   const getMovieRequest = async (searchValue) => {
     const url = `https://www.omdbapi.com/?s=${searchValue}&apikey=263d22d8`
@@ -35,20 +36,18 @@ const App = () => {
   }, [searchValue]) // empty array here to signal that the request be made when the page loads only. 
 
   const addFavouriteMovie = (movie) => {
-    // let currentFavs
-    // if (favourites) {
-    //   currentFavs = favourites.filter(favourite => {
-    //     return movie.id === favourite.id
-    //   })
-    // }
-
-    // console.log('currentFavs: ', currentFavs);
-    // if (!currentFavs) {
+    if (!favourites.includes(movie)) {
       const newFavouriteList = [...favourites, movie]
       setFavourites(newFavouriteList)
-    // } else {
-    //   setFavourites([])
-    // }
+    }
+  }
+
+  const removeFavouriteMovie = (movie) => {
+    const newFavouriteList = favourites.filter(
+      (favourite) => favourite.imdbID !== movie.imdbID
+    )
+
+    setFavourites(newFavouriteList)
   }
 
   return (
@@ -64,7 +63,7 @@ const App = () => {
         <MovieListHeading title="Favourites"/>
       </div>
       <div className="row">
-        <MovieList movies={favourites} favouriteComponent={AddFavourites} handleFavouritesClick={addFavouriteMovie}/>
+        <MovieList movies={favourites} favouriteComponent={RemoveFavourites} handleFavouritesClick={removeFavouriteMovie}/>
       </div>
     </div>
   )
