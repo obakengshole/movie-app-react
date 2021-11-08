@@ -35,10 +35,24 @@ const App = () => {
     getMovieRequest(searchValue)
   }, [searchValue]) // empty array here to signal that the request be made when the page loads only. 
 
+  // always runs when the app loads for the first time.
+  useEffect(() => {
+    const movieFavorites = JSON.parse(
+      localStorage.getItem('react-movie-app-favourites')
+    )
+
+    setFavourites(movieFavorites)
+  }, [])
+  
+  const saveToLocalStorage = (items) => {
+    localStorage.setItem('react-movie-app-favourites', JSON.stringify(items))
+  }
+  
   const addFavouriteMovie = (movie) => {
     if (!favourites.includes(movie)) {
       const newFavouriteList = [...favourites, movie]
       setFavourites(newFavouriteList)
+      saveToLocalStorage(newFavouriteList)
     }
   }
 
